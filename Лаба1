@@ -1,0 +1,227 @@
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
+using static System.Console;
+namespace ConsoleApp1
+{
+    #region [Структурная переменная Музыка]
+    public struct Music
+    {
+        string _name;
+        decimal _time;
+        public Music(string name, decimal time)
+        {
+            _name = name;
+            _time = time;
+        }
+        public string GetFullName()
+        {
+            return ($"Название: {_name} Время: {_time}\n");
+        }
+        public string Find3min()
+        {
+            if(_time>=3)
+            {
+                return ($"Название: {_name} Время: {_time}\n");
+            }
+            else
+            {
+                return "";
+            }
+        }
+    }
+    #endregion
+    class Program
+    {
+        #region [Задача 1]
+        static void func1()
+        {
+            int k = 0, N = 0, f = 0;
+            int[] arr;
+            arr = new int[15];
+            while (f != 1)
+            {
+                Console.Write("Введите количество элементов в массиве: ");
+                try
+                {
+                    N = Convert.ToInt32(Console.ReadLine());
+                    f = 1;
+                }
+                catch
+                {
+                    Console.Write("При вводе используйте только целые числа\n");
+                }
+            }
+            Console.Write("\nВведите массив: ");
+            for (var i = 0; i < N; i++)
+            {
+                try
+                {
+                    arr[i] = Convert.ToInt32(Console.ReadLine());
+                }
+                catch
+                {
+                    Console.Write("При вводе используйте только целые числа\n");
+                    i--;
+                }
+            }
+            for (var i = 0; i < N; i++)
+            {
+                if (arr[i] % 5 == 0)
+                {
+                    k++;
+                }
+            }
+            Console.Write(k);
+        }
+        #endregion
+        #region [Задача 2]
+        static void func2()
+        {
+            int f;
+            decimal x;
+            decimal[,] arr = new decimal[3, 4];
+            Random random = new Random();
+            for (var i = 0; i < arr.GetLength(0); i++)
+            {
+                for (var j = 0; j < arr.GetLength(1); j++)
+                {
+                    arr[i, j] = Math.Round((random.Next(1050, 3000) / 3.0m), 2);
+                }
+            }
+            Console.WriteLine("Задана произвольная матрица:\n");
+            for (var i = 0; i < arr.GetLength(0); i++)
+            {
+                for (var j = 0; j < arr.GetLength(1); j++)
+                {
+                    Console.Write(arr[i, j] + "\t");
+                }
+                Console.Write("\n");
+            }
+            Console.Write("\nМатрица после упорядочения построчно всех элементов по убыванию:\n\n");
+            for (var i = 0; i < arr.GetLength(0); i++)
+            {
+                f = 1;
+                while (f != 0)
+                {
+                    f = 0;
+                    for (var j = 0; j < arr.GetLength(1) - 1; j++)
+                    {
+                        if (arr[i, j] < arr[i, j + 1])
+                        {
+                            x = arr[i, j];
+                            arr[i, j] = arr[i, j + 1];
+                            arr[i, j + 1] = x;
+                            f++;
+                        }
+                    }
+                }
+            }
+            for (var i = 0; i < arr.GetLength(0); i++)
+            {
+                for (var j = 0; j < arr.GetLength(1); j++)
+                {
+                    Console.Write(arr[i, j] + "\t");
+                }
+                Console.Write("\n");
+            }
+        }
+        #endregion
+        #region [Задача 3]
+        static void func3()
+        {
+            List<Music> music = new List<Music>();
+            int f = 0, N=0;
+            Console.Write("Введите количество композиций, которое вы хотите добавить в список: ");
+            while (f != 1)
+            {
+                Console.Write("Введите количество элементов в массиве: ");
+                try
+                {
+                    N = Convert.ToInt32(Console.ReadLine());
+                    f = 1;
+                }
+                catch
+                {
+                    Console.Write("При вводе надо использовать только целые числа\n");
+                }
+            }
+            string name;
+            decimal time=0;
+            for (var i = 0; i < N; i++)
+            {
+                f = 0;
+                Console.Write("\nВведите название композиции: ");
+                name = Console.ReadLine();
+                while (f != 1)
+                {
+                    Console.Write("\nВведите длительность композиции: ");
+                    try
+                    {
+                        time = Convert.ToDecimal(Console.ReadLine());
+                        f = 1;
+                        if(time<=0)
+                        {
+                            Console.Write("При вводе надо использовать только числа больше 0\n");
+                            f = 0;
+                        }
+                    }
+                    catch
+                    {
+                        Console.Write("При вводе надо использовать только числа больше 0\n");
+                    }
+                }
+                music.Add(new Music(name, time));
+            }
+            Console.Write("Музыка:\n");
+            music.ForEach(s => Console.Write(s.Find3min()));
+        }
+        #endregion
+        static void Main(string[] args)
+        {
+            Console.Write("Вариант 11\n");
+            int N = 0, f = 0;
+            bool flag=true;
+            while (flag)
+            {
+                f = 0;
+                N = 0;
+                #region [Ввод]
+                while (f == 0)
+                {
+                    Console.Write("\nВведите номер задачи (от 1 до 3):");
+                    try
+                    {
+                        N = Convert.ToInt32(Console.ReadLine());
+                        f++;
+                        if (N >= 3 & N <= 1)
+                        {
+                            Console.Write("От 1 до 3\nПопробуйте ввести ещё раз\n");
+                            f = 0;
+                        }
+                    }
+                    catch
+                    {
+                        Console.Write("При вводе используйте только целые числа\n");
+                    }
+                }
+                #endregion
+                switch (N)
+                {
+                    case 1:
+                        func1();
+                        break;
+                    case 2:
+                        func2();
+                        break;
+                    case 3:
+                        func3();
+                        break;
+                }
+            }
+        }
+    }
+}
